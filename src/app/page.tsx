@@ -5,8 +5,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
     <div>
-      Login de usuario
-    <input></input>
+      Login
     </div>
     </main>
   )

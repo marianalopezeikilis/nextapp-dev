@@ -1,9 +1,9 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {initializeApp} from 'firebase/app';
+import { auth } from "../firebase/clientApp"
 
 export default async function createUser( email: string, password: string) {
   try {
-    const auth = getAuth();
+    
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,

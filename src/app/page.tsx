@@ -1,21 +1,32 @@
 "use client";
-
+import { useRouter } from 'next/navigation';
 import styles from "./page.module.css";
 import React, { useState } from "react";
-import createUser from "../../services/createUser";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from "../../firebase/clientApp"
+import signIn from "../../services/loginUser";
 
 export default function LoginPage() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [user, error] = useAuthState(auth);
+    const router = useRouter();
 
-    const handleRegister = async () => {
+    //If user already logged in redirect
+    //if(user){
+    //  router.push("/")
+    //}
+
+    const handleLogin = async () => {
       try {
-        await createUser(email, password);
-        console.log("Usuario registrado con éxito.");
+        await signIn(email, password);
+
+        console.log("Inicio de sesión exitoso");
+        return "Inicio de sesión exitoso"
         // Aquí puedes redirigir al usuario a la página de inicio de sesión o realizar otras acciones.
       } catch (error) {
-        console.error("Error al registrar al usuario:", error);
+        console.error("Error inicio de sesión", error);
         //error.message
       }
     };
@@ -35,20 +46,23 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={styles.input}
+              required
             />
 
             <label htmlFor="password" className={styles.label}>
               Contraseña
             </label>
             <input 
-            type="password" 
-            id="password" 
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} className={styles.input} />
+              type="password" 
+              id="password" 
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} className={styles.input}
+              required
+            />
           </form>
 
-          <button className={styles.btnblack} onClick={handleRegister}>Iniciar sesión</button>
+          <button className={styles.btnblack} onClick={handleLogin}>Iniciar sesión</button>
 
           <a href="" className={styles.a}>
             ¿Olvidaste tu contraseña?
@@ -56,7 +70,7 @@ export default function LoginPage() {
 
           <div className={styles.row}>
             <p>¿No tienes una cuenta?</p>
-            <a href="" className={styles.aRegister}>
+            <a href="./register/register.tsx" className={styles.aRegister}>
               Regístrate
             </a>
           </div>

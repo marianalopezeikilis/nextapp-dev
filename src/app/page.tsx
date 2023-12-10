@@ -70,7 +70,7 @@ export default function LoginPage() {
 
           <div className={styles.row}>
             <p>¿No tienes una cuenta?</p>
-            <a href="./register/register.tsx" className={styles.aRegister}>
+            <a href="./register" className={styles.aRegister}>
               Regístrate
             </a>
           </div>
